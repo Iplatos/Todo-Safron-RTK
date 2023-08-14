@@ -1,14 +1,13 @@
-//2. 45hour
 import React, { useCallback, useEffect } from 'react'
 import './App.css'
-import { TodolistsList } from 'features/TodolistsList/TodolistsList'
-import { ErrorSnackbar } from 'components/ErrorSnackbar/ErrorSnackbar'
+import { TodolistsList } from '../features/TodolistsList/TodolistsList'
+import { ErrorSnackbar } from '../components/ErrorSnackbar/ErrorSnackbar'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppRootStateType } from './store'
 import { initializeAppTC, RequestStatusType } from './app-reducer'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Login } from 'features/Login/Login'
-import { logoutTC } from 'features/Login/auth/auth-reducer'
+import { Login } from '../features/Login/Login'
+import { logoutTC } from '../features/Login/auth-reducer'
 import {
 	AppBar,
 	Button,
@@ -20,19 +19,16 @@ import {
 	Typography
 } from '@mui/material';
 import { Menu } from '@mui/icons-material'
-import {selectIsLoggedIn} from "features/Login/auth/auth-selector";
-import {useAppDispatch} from "hooks/useAppDispatch";
 
 type PropsType = {
 	demo?: boolean
 }
-//работа с серваком это экстра редюссеры 1.58
 
 function App({demo = false}: PropsType) {
 	const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
 	const isInitialized = useSelector<AppRootStateType, boolean>((state) => state.app.isInitialized)
-	const isLoggedIn = useSelector(selectIsLoggedIn)
-	const dispatch = useAppDispatch()
+	const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+	const dispatch = useDispatch<any>()
 
 	useEffect(() => {
 		dispatch(initializeAppTC())

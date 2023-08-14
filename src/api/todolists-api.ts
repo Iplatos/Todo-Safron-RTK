@@ -32,25 +32,17 @@ export const todolistsAPI = {
     getTasks(todolistId: string) {
         return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`);
     },
-    deleteTask(param: { todolistId: string, taskId: string }) {
-        return instance.delete<ResponseType>(`todo-lists/${param.todolistId}/tasks/${param.taskId}`);
+    deleteTask(todolistId: string, taskId: string) {
+        return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`);
     },
-    createTask(arg: CreateTaskType) {
-        return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${arg.todolistId}/tasks`, {title: arg.taskTitle});
+    createTask(todolistId: string, taskTitile: string) {
+        return instance.post<ResponseType<{ item: TaskType}>>(`todo-lists/${todolistId}/tasks`, {title: taskTitile});
     },
     updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
         return instance.put<ResponseType<TaskType>>(`todo-lists/${todolistId}/tasks/${taskId}`, model);
     }
 }
 
-export type CreateTaskType = {
-    todolistId: string,
-    taskTitle: string
-}
-export type RemoveTask = {
-    taskId: string
-    todolistId: string
-}
 
 export type LoginParamsType = {
     email: string
@@ -61,16 +53,16 @@ export type LoginParamsType = {
 
 export const authAPI = {
     login(data: LoginParamsType) {
-        const promise = instance.post<ResponseType<{ userId?: number }>>('auth/login', data);
+        const promise = instance.post<ResponseType<{userId?: number}>>('auth/login', data);
         return promise;
     },
     logout() {
-        const promise = instance.delete<ResponseType<{ userId?: number }>>('auth/login');
+        const promise = instance.delete<ResponseType<{userId?: number}>>('auth/login');
         return promise;
     },
     me() {
-        const promise = instance.get<ResponseType<{ id: number; email: string; login: string }>>('auth/me');
-        return promise
+       const promise =  instance.get<ResponseType<{id: number; email: string; login: string}>>('auth/me');
+       return promise
     }
 }
 
@@ -86,14 +78,12 @@ export type ResponseType<D = {}> = {
     messages: Array<string>
     data: D
 }
-
 export enum TaskStatuses {
     New = 0,
     InProgress = 1,
     Completed = 2,
     Draft = 3
 }
-
 export enum TaskPriorities {
     Low = 0,
     Middle = 1,
@@ -101,7 +91,6 @@ export enum TaskPriorities {
     Urgently = 3,
     Later = 4
 }
-
 export type TaskType = {
     description: string
     title: string
