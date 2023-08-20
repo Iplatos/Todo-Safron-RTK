@@ -24,7 +24,7 @@ type PropsType = {
   demo?: boolean
 }
 
-//1.10
+//2.50
 function App({ demo = false }: PropsType) {
   const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status);
   const isInitialized = useSelector<AppRootStateType, boolean>((state) => state.app.isInitialized);
